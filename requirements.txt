@@ -1,8 +1,8 @@
 pandas
 numpy
-random
 matplotlib
-seaborn
-missingno
+Missingno
 pickle
 sklearn
+random
+seaborn
