@@ -1,0 +1,8 @@
+pandas
+numpy
+random
+matplotlib
+seaborn
+missingno
+pickle
+sklearn
