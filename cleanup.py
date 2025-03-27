@@ -2,19 +2,10 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sb
-from pickle import dump, load
 # Load libraries for data clean up
 import missingno as mno
 import random
 import numpy as np
-from sklearn.preprocessing import StandardScaler
-
-# ML Libreries load
-import sklearn.model_selection as model_selection
-from sklearn.tree import DecisionTreeClassifier
-from sklearn.metrics import accuracy_score, confusion_matrix, classification_report
-import xgboost as xgb
-from sklearn.ensemble import RandomForestClassifier
 
 df = pd.read_csv("loan_approval_dataset.csv")
 df.columns = df.columns.str.strip()
@@ -47,17 +38,25 @@ df.loc[df['loan_status']=="Rejected",'loan_status_encoded'] = 0 #rejected
 df.loc[df['loan_status']=="Approved",'loan_status_encoded'] = 1 #approved
 
 plt.rcParams['figure.figsize']=(12,10)
-df[['income_annum','loan_amount','loan_term','cibil_score_encoded','residential_assets_value','commercial_assets_value','luxury_assets_value','bank_asset_value']].hist(bins=50)
-plt.show()
+df[['no_of_dependents','education_encoded','self_employed_encoded','income_annum','loan_amount','loan_term','cibil_score_encoded','residential_assets_value','commercial_assets_value','luxury_assets_value','bank_asset_value']].hist(bins=50)
+#plt.show()
+plt.savefig("hist.jpg")
 
 # correlation graph
-df[['income_annum','loan_amount','loan_term','cibil_score_encoded','residential_assets_value','commercial_assets_value','luxury_assets_value','bank_asset_value']].corr()
+df[['no_of_dependents','education_encoded','self_employed_encoded','income_annum','loan_amount','loan_term','cibil_score_encoded','residential_assets_value','commercial_assets_value','luxury_assets_value','bank_asset_value']].corr()
 
 # pairplot graph
 plt.rcParams['figure.figsize']=(10,8)
-sb.pairplot(df[['income_annum','loan_amount','loan_term','cibil_score_encoded','residential_assets_value','commercial_assets_value','luxury_assets_value','bank_asset_value','loan_status_encoded']],hue = 'loan_status_encoded')
-plt.show()
+sb.pairplot(df[['no_of_dependents','education_encoded','self_employed_encoded','income_annum','loan_amount','loan_term','cibil_score_encoded','residential_assets_value','commercial_assets_value','luxury_assets_value','bank_asset_value','loan_status_encoded']],hue = 'loan_status_encoded')
+#plt.show()
+plt.savefig("pairplot.jpg")
+
+# correlation graph
+plt.figure(figsize = (10,10))
+sb.heatmap(df[['no_of_dependents','education_encoded','self_employed_encoded','income_annum','loan_amount','loan_term','cibil_score_encoded','residential_assets_value','commercial_assets_value','luxury_assets_value','bank_asset_value','loan_status_encoded']].astype(float).corr(),square = True, annot = True, vmax = 1, linewidths = 0.1)
+#plt.show() 
+plt.savefig("correlation.jpg")
 
 # download data to load into MS Azure
 df_download = df[['no_of_dependents','education_encoded', 'self_employed_encoded','income_annum','loan_amount','loan_term','cibil_score_encoded','residential_assets_value','commercial_assets_value','luxury_assets_value','bank_asset_value','loan_status_encoded']]
-df_download.to_csv("loandata_cleaned.csv", index = False)
+df_download.to_csv("loandata_clean.csv", index = False)

@@ -1,17 +1,16 @@
+import pandas as pd
+import numpy as np
+# ML libraries
+import sklearn.model_selection as model_selection
+from sklearn.tree import DecisionTreeClassifier
+from sklearn.metrics import accuracy_score, confusion_matrix, classification_report
+import xgboost as xgb
+from sklearn.ensemble import RandomForestClassifier
+
+#load clean data
+df = pd.read_csv("loandata_cleaned.csv")
 
 #VARIABLE CORRELATION ANALYSIS
-
-# download data to load into MS Azure
-df_encoded = df[['income_annum','loan_amount','cibil_score_encoded','residential_assets_value','commercial_assets_value','luxury_assets_value','bank_asset_value','loan_status_encoded']]
-
-# correlation graph
-plt.figure(figsize = (10,10))
-sb.heatmap(df_encoded.astype(float).corr(),square = True, annot = True, vmax = 1, linewidths = 0.1)
-plt.show()
-
-df_encoded.describe()
-
-df_encoded[['cibil_score_encoded','loan_status_encoded']].groupby(['loan_status_encoded']).agg(['count','sum','mean'])
 
 # DATA BALANCING
 
@@ -42,7 +41,7 @@ df_train_u['loan_status_encoded'].value_counts()
 # Oversampling
 df_class_1_over = df_class_1.sample(count_class_0, random_state = 123, replace= True)
 df_train_o = pd.concat([df_class_0,df_class_1_over], axis=0)
-df_train_o['loan_status_encoded'].value_counts()
+#df_train_o['loan_status_encoded'].value_counts()
 
 ## Data Evaluation and Confusion Matrix
 
@@ -162,20 +161,21 @@ print('Classification Report')
 print(classification_report(y_test,y_pred3))
 
 # Algoritmo de RANDOMFOREST (w/ Tuning)
-# LLamar al modelo
+# call model
 model4 = RandomForestClassifier(random_state = 123, n_estimators=20, max_depth=8)
-# Entrenar el modelo
+# train model
 model4.fit(X_train_u,y_train_u)
-# Generar la predicción para el test
+# generate test prediction
 y_pred4 = model4.predict(X_test)
-# evaluar metricas
+# evaluate metrics
 print(accuracy_score(y_test,y_pred4))
-# matriz de confusión
+# confusion matrix
 print('Confusion Matrix: ')
 print(confusion_matrix(y_test,y_pred4))
-# Reporte de Clasificación:
+# Classification report:
 print('Classification Report: ')
 print(classification_report(y_test,y_pred4))
+
 
 #Trying new prediction pronostics
 
@@ -202,4 +202,3 @@ datos_dummy2 = pd.DataFrame({'income_annum':[30000],
 datos_dummy2.head()
 
 model4.predict(datos_dummy2)
-

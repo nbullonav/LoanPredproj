@@ -2,7 +2,6 @@ pandas
 numpy
 matplotlib
 Missingno
-pickle
-sklearn
-random
+scikit-learn
 seaborn
+xgboost
