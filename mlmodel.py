@@ -9,11 +9,10 @@ from sklearn.ensemble import RandomForestClassifier
 
 #load clean data
 df = pd.read_csv("loandata_cleaned.csv")
-
+print(df.head(10))
 #VARIABLE CORRELATION ANALYSIS
 
 # DATA BALANCING
-
 # Train and Test
 X = df[['income_annum','loan_amount','cibil_score_encoded','residential_assets_value','commercial_assets_value','luxury_assets_value','bank_asset_value']]
 y = df['loan_status_encoded']
@@ -22,7 +21,6 @@ X_train, X_test, y_train, y_test = model_selection.train_test_split(X, y, train_
 
 df_train = pd.concat([X_train,y_train],axis = 1)
 df_train.head()
-
 
 # Calculate qty of 0 & 1 within dataset
 count_class_0, count_class_1 = df_train['loan_status_encoded'].value_counts()
@@ -46,7 +44,6 @@ df_train_o = pd.concat([df_class_0,df_class_1_over], axis=0)
 ## Data Evaluation and Confusion Matrix
 
 # 0) Original data
-
 # Call the model
 model = DecisionTreeClassifier(random_state = 123)
 # Train the model
